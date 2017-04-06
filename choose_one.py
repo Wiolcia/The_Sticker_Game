@@ -21,6 +21,10 @@ fd = open('message_default.txt', 'rb')
 msg_text_default = fd.read()
 fd.close()
 
+fr = open('rules.txt', 'rb')
+msg_rules = fr.read()
+fr.close()
+
 players_list = players.split('\n')
 players_list.pop()
 
@@ -33,11 +37,15 @@ chosen = randint(0, len(players_list)-1)
 save_result= str()
 
 for index in xrange(len(players_list)):
+    msg_text = str()
     if index==chosen:
-        msg = MIMEText(msg_text_chosen)
+        msg_text += msg_text_chosen
         save_result+='chosen '+ names_list[index]+' email: '+players_list[index]+'\n'
     else:
-        msg = MIMEText(msg_text_default)
+        msg_text += msg_text_default
+        
+    msg_text += msg_rules
+    msg = MIMEText(msg_text)
         
     msg['Subject'] = 'You have been assigned!'
     msg['From'] = 'The Sticker HQ <you@example.com>'
@@ -49,7 +57,7 @@ for index in xrange(len(players_list)):
     
 
 #save the result, just in case
-file_result = open('do_not_open', 'wb')
-file_result.write(save_result)
-file_result.close()
+#file_result = open('do_not_open', 'wb')
+#file_result.write(save_result)
+#file_result.close()
 
